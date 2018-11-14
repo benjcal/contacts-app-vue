@@ -1,28 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <div class="left">
+            <div class="span">
+                <filter-bar />
+            </div>
+            
+            <contact-list />
+        </div>
+        
+        <div class="right">
+            <contact-info />
+        </div>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FilterBar from '@/components/FilterBar.vue'
+import ContactList from '@/components/ContactList.vue'
+import ContactInfo from '@/components/ContactInfo.vue'
 
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
+    name: 'app',
+    
+    components: {
+        FilterBar,
+        ContactList,
+        ContactInfo
+    }
 }
 </script>
 
+
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    display: flex;
+
+    .left {
+        flex: 0 0 400px;
+    }
+
+    .right {
+        flex: 0 0 400px;
+    }
 }
+
 </style>
