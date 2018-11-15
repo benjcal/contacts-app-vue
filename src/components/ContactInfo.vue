@@ -1,5 +1,5 @@
 <template>
-    <div class="contact-info">
+    <div class="contact-info" v-if="contact">
 
         <!-- Name and icon -->
         <div class="name">
@@ -7,14 +7,14 @@
 
             <!-- display when not editing -->
             <template v-if="!isEditing">
-                {{c.first_name}}<br />{{c.last_name}}
+                {{contact.first_name}}<br />{{contact.last_name}}
             </template>
 
             <!-- display when editing -->
             <template v-if="isEditing">
                 <div class="pure-form">
-                    <input type="text" size="20"><br>
-                    <input type="text" size="20">
+                    <input v-model="contact.first_name" type="text" size="20"><br>
+                    <input v-model="contact.last_name" type="text" size="20">
                 </div>
             </template>
         </div>
@@ -24,11 +24,11 @@
             <label class="info">Date of Birth</label>
 
             <template v-if="!isEditing">
-                <div>{{dobFormat(c.date_of_birth)}}</div>
+                <div>{{dobFormat(contact.date_of_birth)}}</div>
             </template>
 
             <template v-if="isEditing">
-                <date-selector />
+                <date-selector v-model="contact.date_of_birth"/>
             </template>
         </div>
 
@@ -36,36 +36,47 @@
         <div class="data">
             <label class="info">
                 <!-- display plural if more than one item -->
-                {{c.addresses.length > 1 ? 'Addresses' : 'Address'}}
+                {{contact.addresses.length > 1 ? 'Addresses' : 'Address'}}
             </label>
 
             <template v-if="!isEditing">
-                <div v-for="a in c.addresses" :key="a.id">{{a.address}}</div>
+                <div v-for="a in contact.addresses" :key="a.id">{{a.address}}</div>
             </template>
 
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
-                    <input type="text">
-                    <input type="text">
-                    <input type="text">
-                    <button class="pure-button" title="Sync"><i class="fa fa-plus"></i></button>
+                    <div v-for="a in contact.addresses" :key="a.id">
+                        <input type="text" v-model="a.address">
+                    </div>
+                    <button
+                        class="pure-button"
+                        title="Add Address"
+                        @click="contact.addresses.push({address: ''})" >
+                        <i class="fa fa-plus" />
+                    </button>
                 </div>
             </template>
         </div>
 
         <!-- Phones -->
         <div class="data">
-            <label class="info">{{c.phones.length > 1 ? 'Phone Number' : 'Phone Numbers'}}</label>
+            <label class="info">{{contact.phones.length > 1 ? 'Phone Number' : 'Phone Numbers'}}</label>
 
             <template v-if="!isEditing">
-                <div v-for="p in c.phones" :key="p.id">{{p.phone}}</div>
+                <div v-for="p in contact.phones" :key="p.id">{{p.phone}}</div>
             </template>
 
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
-                    <input type="text">
-                    <input type="text">
-                    <button class="pure-button" title="Sync"><i class="fa fa-plus"></i></button>
+                    <div v-for="p in contact.phones" :key="p.id">
+                        <input type="text" v-model="p.phone">
+                    </div>
+                    <button
+                        class="pure-button"
+                        title="Add Phone"
+                        @click="contact.phones.push({phone: ''})" >
+                        <i class="fa fa-plus" />
+                    </button>
                 </div>
             </template>
         </div>
@@ -74,13 +85,20 @@
         <div class="data">
             <label class="info">Emails</label>
             <template v-if="!isEditing">
-                <div v-for="e in c.emails" :key="e.id">{{e.email}}</div>
+                <div v-for="e in contact.emails" :key="e.id">{{e.email}}</div>
             </template>
+
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
-                    <input type="text">
-                    <input type="text">
-                    <button class="pure-button" title="Sync"><i class="fa fa-plus"></i></button>
+                    <div v-for="e in contact.emails" :key="e.id">
+                        <input type="text" v-model="e.email">
+                    </div>
+                    <button
+                        class="pure-button"
+                        title="Add Phone"
+                        @click="contact.emails.push({email: ''})" >
+                        <i class="fa fa-plus" />
+                    </button>
                 </div>
             </template>
         </div>
@@ -91,8 +109,25 @@
 
         <template v-if="isEditing">
             <div class="header-right pure-button-group">
-                <button @click="discard" class="button-error pure-button" title="Sync"><i class="fa fa-undo"></i></button>
-                <button @click="save" class="button-success pure-button" title="Save"><i class="fa fa-floppy-o"></i></button>
+                <button
+                    @click="deleteContact"
+                    class="button-error pure-button"
+                    title="Delete Contact">
+                    <i class="fa fa-trash" />
+                </button>
+                <button
+                    @click="discard"
+                    class="button-warning pure-button"
+                    title="Save">
+                    <i class="fa fa-undo" />
+                </button>
+                <button
+                    @click="save"
+                    class="button-success pure-button"
+                    title="Save">
+                    <i class="fa fa-floppy-o" />
+                </button>
+
             </div>
         </template>
 
@@ -110,33 +145,53 @@ export default {
     },
     data() {
         return {
-            isEditing: false
+            contactCopy: {}
         }
     },
     methods: {
-        dobFormat(d) {
-            return dayjs(d).format('MMM D YYYY')
+        dobFormat(date) {
+            return dayjs(date).format('MMM D YYYY')
         },
-        edit () {
+        edit() {
+            this.contactCopy = Object.assign({}, this.contact)
             this.isEditing = true
         },
-        save () {
+        save() {
             this.isEditing = false
         },
-        discard () {
+        discard() {
+            this.isEditing = false
+        },
+        deleteContact() {
+            alert('Are you sure?')
+            this.$store.dispatch('deleteContact', this.contact.id)
             this.isEditing = false
         }
     },
     computed: {
-        c () {
-            let s = this.$store.state
-            return s.contacts.filter(e => e.id === s.selectedContactId)[0]
+        isEditing: {
+            set() {
+                let editing = this.$store.state.isEditing
+                this.$store.commit('updateEditing', !editing)
+            },
+            get() {
+                return this.$store.state.isEditing
+            }
         },
+
+        contact() {
+            let s = this.$store.state
+            if (this.isEditing) {
+                return this.contactCopy
+            }
+            return s.contacts[s.selectedContactId]
+        },
+
         iconSvg() {
-            let c = this.c
+            let contact = this.contact
 
             // 72px size
-            return j.toSvg(c.first_name + c.last_name + c.id, 72)
+            return j.toSvg(contact.first_name + contact.last_name + contact.id, 72)
         }
     }
 }
@@ -173,16 +228,22 @@ export default {
 
 // https://purecss.io/buttons/
 .button-success,
-.button-error
+.button-error,
+.button-warning
 {
     color: white;
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    width: 80px;
 }
 .button-success {
     background: rgb(28, 184, 65); /* this is a green */
 }
 .button-error {
     background: rgb(202, 60, 60); /* this is a maroon */
+    width: 60px;
+}
+.button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
 }
 </style>

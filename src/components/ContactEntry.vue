@@ -1,5 +1,8 @@
 <template>
-    <div class="contact-entry" :class="{ selected: isSelected }" @click="select">
+    <div
+        class="contact-entry"
+        :class="{ selected: isSelected }"
+        @click="select" >
         <span class="icon" v-html="iconSvg" />
         <span class="first_name">{{contact.first_name}}&nbsp;</span>
         <span class="last_name">{{contact.last_name}}</span>
@@ -7,22 +10,27 @@
 </template>
 
 <script>
-import j from 'jdenticon'
+import jdenticon from 'jdenticon'
 
 export default {
     props: ['contact'],
 
     methods: {
         select() {
-            this.$store.commit('updateSelection', this.contact.id)
+            if (!this.$store.state.isEditing) {
+                this.$store.commit('updateSelection', this.contact.id)
+            }
         }
     },
 
     computed: {
         iconSvg() {
-            let c = this.contact
-            return j.toSvg(c.first_name + c.last_name + c.id, 46)
+            let contact = this.contact
+            return jdenticon.toSvg(contact.first_name
+                                    + contact.last_name
+                                    + contact.id, 46)
         },
+
         isSelected() {
             return this.$store.state.selectedContactId === this.contact.id
         }

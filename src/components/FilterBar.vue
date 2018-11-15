@@ -1,6 +1,12 @@
 <template>
     <div class="filter-bar pure-form">
-        <input type="text" placeholder="Search..." size="36" v-model="filter">
+        <input
+            type="text"
+            placeholder="Search..."
+            size="36"
+            v-model="filter"
+            :disabled="isEditing"
+        />
     </div>
 </template>
 
@@ -8,17 +14,20 @@
 export default {
     computed: {
         filter: {
-            set(e) {
-                this.$store.commit('updateFilter', e)
+            set(val) {
+                this.$store.commit('updateFilter', val)
             },
             get() {
                 return this.$store.state.filterBy
             }
+        },
+
+        isEditing() {
+            return this.$store.state.isEditing
         }
     }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .filter-bar {

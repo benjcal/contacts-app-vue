@@ -13,6 +13,7 @@
     "dayjs": "^1.7.7",
     "font-awesome": "^4.7.0",
     "jdenticon": "^2.1.0",
+    "lodash": "^4.17.11",
     "purecss": "^1.0.0",
     "typeface-montserrat": "0.0.54",
     "vue": "^2.5.17",

@@ -1,6 +1,6 @@
 <template>
 <div class="pure-form">
-    <select>
+    <select v-model="month" @change="changed">
         <option value="1">January</option>
         <option value="2">February</option>
         <option value="3">March</option>
@@ -14,10 +14,10 @@
         <option value="11">November</option>
         <option value="12">December</option>
     </select>
-    <select>
+    <select v-model="day" @change="changed">
         <option v-for="d in days" :key="d" :value="d">{{d}}</option>
     </select>
-    <select>
+    <select v-model="year" @change="changed">
         <option v-for="y in years" :key="y" :value="y">{{y}}</option>
     </select>
 </div>
@@ -25,6 +25,14 @@
 
 <script>
 export default {
+    props: ['value'],
+    data() {
+        return {
+            month: '',
+            day: '',
+            year: ''
+        }
+    },
     computed: {
         days() {
             let n = []
@@ -33,14 +41,27 @@ export default {
             }
             return n
         },
+
+        // who has time to write from 1900 to whatever year it is manually?
         years() {
+            let d = new Date()
             let n = []
-            for (let i = 1900; i <= 2018; i++) {
+
+            for (let i = 1900; i <= d.getFullYear(); i++) {
                 n.push(i)
             }
             n.reverse()
             return n
         }
+    },
+
+    methods: {
+        changed() {
+            let day = this.day < 10 ? `0${this.day}` : `${this.day}`
+            let month = this.month < 10 ? `0${this.month}` : `${this.month}`
+            this.$emit('input', `${this.year}-${month}-${day}`)
+        }
+
     }
 }
 </script>
