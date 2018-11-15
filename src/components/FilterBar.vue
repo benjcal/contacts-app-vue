@@ -1,7 +1,6 @@
 <template>
     <div class="filter-bar pure-form">
-        <input type="text" placeholder="Search..." size="30">
-        <button class="pure-button pure-button-primary">+</button>
+        <input type="text" placeholder="Search..." size="36">
     </div>
 </template>
 
@@ -10,8 +9,8 @@
     display: flex;
     justify-content: space-between;
 
-    button {
-        font-weight: 700;
+    input {
+        height: 32px;
     }
 }
 </style>
