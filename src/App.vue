@@ -1,15 +1,15 @@
 <template>
-    <div id="app" v-if="isReady">
+    <div id="app">
         <app-header />
-        <main>
+        <main v-if="isReady">
             <div class="left">
             <div class="span">
                 <filter-bar />
             </div>
-            
+
             <contact-list />
         </div>
-        
+
         <div class="right">
             <contact-info />
         </div>
@@ -25,7 +25,7 @@ import ContactInfo from '@/components/ContactInfo.vue'
 
 export default {
     name: 'app',
-    
+
     components: {
         AppHeader,
         FilterBar,
@@ -52,20 +52,20 @@ html, body, #app {
 }
 #app {
     font-family: 'Montserrat', sans-serif;
-    max-width: 1000px;
+    // max-width: 1000px;
 
     main {
         display: flex;
         height: calc(100% - 50px); // -50 for the header height
     }
-    
+
     .left {
         flex: 0 1 300px;
     }
 
     .right {
         flex: 1 1 auto;
-        background: #EEE;
+        background: #F8F8F8;
     }
 }
 

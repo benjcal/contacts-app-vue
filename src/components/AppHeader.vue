@@ -5,12 +5,9 @@
             <span class="app-name">Contacts App</span>
         </div>
         <div class="header-right pure-button-group">
-            <button class="pure-button pure-button-primary" title="Edit"><i class="fa fa-pencil"></i></button>
             <button class="pure-button pure-button-primary" title="Add Contact"><i class="fa fa-user-plus"></i></button>
             <button class="pure-button pure-button-primary" title="Sync"><i class="fa fa-refresh"></i></button>
         </div>
-
-        
     </div>
 </template>
 

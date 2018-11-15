@@ -8,7 +8,8 @@ export default new Vuex.Store({
     state: {
         contacts: [],
         selectedContactId: 1,
-        isReady: false
+        isReady: false,
+        filterBy: ''
     },
     mutations: {
         updateContacts(state, contacts) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
         },
         updateReady(state, ready) {
             state.isReady = ready
+        },
+        updateFilter(state, filter) {
+            state.filterBy = filter
         }
     },
     actions: {

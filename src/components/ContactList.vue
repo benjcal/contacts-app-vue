@@ -1,6 +1,14 @@
 <template>
     <div class="contact-list">
-        <contact-entry v-for="c in contacts" :key="c.id" :contact="c"/>
+        <contact-entry
+            v-for="c in contacts"
+            :key="c.id"
+            :contact="c"
+            v-show="
+                c.first_name.toLowerCase().includes(filterBy)
+                || c.last_name.toLowerCase().includes(filterBy)
+                "
+            />
     </div>
 </template>
 
@@ -13,9 +21,12 @@ export default {
     computed: {
         contacts() {
             return this.$store.state.contacts
+        },
+        filterBy() {
+            return this.$store.state.filterBy.toLowerCase()
         }
     }
-    
+
 }
 </script>
 
