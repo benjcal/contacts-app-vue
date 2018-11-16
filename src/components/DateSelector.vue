@@ -1,6 +1,7 @@
 <template>
 <div class="pure-form">
     <select v-model="month" @change="changed">
+        <option value="" disabled selected>Month</option>
         <option value="1">January</option>
         <option value="2">February</option>
         <option value="3">March</option>
@@ -17,11 +18,13 @@
 
     <!-- ain't nobody got this fot this... -->
     <select v-model="day" @change="changed">
+        <option value="" disabled selected>Day</option>
         <option v-for="d in days" :key="d" :value="d">{{d}}</option>
     </select>
 
     <!-- nor this -->
     <select v-model="year" @change="changed">
+        <option value="" disabled selected>Year</option>
         <option v-for="y in years" :key="y" :value="y">{{y}}</option>
     </select>
 </div>

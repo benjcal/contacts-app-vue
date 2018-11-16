@@ -17,8 +17,16 @@
             <!-- display when editing -->
             <template v-if="isEditing">
                 <div class="pure-form">
-                    <input v-model="contact.first_name" type="text" size="20"><br>
-                    <input v-model="contact.last_name" type="text" size="20">
+                    <input
+                        v-model="contact.first_name"
+                        type="text"
+                        size="20"
+                        placeholder="First Name"><br>
+                    <input
+                        v-model="contact.last_name"
+                        type="text"
+                        size="20"
+                        placeholder="Last Name">
                 </div>
             </template>
         </div>
@@ -49,7 +57,7 @@
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
                     <div v-for="e in contact.emails" :key="e.id">
-                        <input type="text" v-model="e.email">
+                        <input type="text" v-model="e.email" placeholder="Email">
                     </div>
                     <button
                         class="pure-button"
@@ -75,7 +83,7 @@
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
                     <div v-for="p in contact.phones" :key="p.id">
-                        <input type="text" v-model="p.phone">
+                        <input type="text" v-model="p.phone" placeholder="Phone Number">
                     </div>
                     <button
                         class="pure-button"
@@ -101,7 +109,7 @@
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
                     <div v-for="a in contact.addresses" :key="a.id">
-                        <input type="text" v-model="a.address">
+                        <input type="text" v-model="a.address" placeholder="Address">
                     </div>
                     <button
                         class="pure-button"
