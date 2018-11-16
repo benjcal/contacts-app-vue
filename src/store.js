@@ -49,10 +49,10 @@ export default new Vuex.Store({
                 id: '_new',
                 first_name: '',
                 last_name: '',
-                date_of_birth: '1990-01-01',
+                date_of_birth: '0001-01-01',
                 addresses: [],
-                emails: [],
-                phones: []
+                emails: [{email: ''}],
+                phones: [{phone: ''}]
             }})
         },
         _addContact(state, contact) {

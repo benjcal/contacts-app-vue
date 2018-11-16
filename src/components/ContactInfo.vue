@@ -36,26 +36,25 @@
             </template>
         </div>
 
-        <!-- Addresses -->
+        <!-- Emails -->
         <div class="data">
             <label class="info">
                 <!-- display plural if more than one item -->
-                {{contact.addresses.length > 1 ? 'Addresses' : 'Address'}}
+                {{contact.emails.length > 1 ? 'Emails' : 'Email'}}
             </label>
-
             <template v-if="!isEditing">
-                <div v-for="a in contact.addresses" :key="a.id">{{a.address}}</div>
+                <div v-for="e in contact.emails" :key="e.id">{{e.email}}</div>
             </template>
 
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
-                    <div v-for="a in contact.addresses" :key="a.id">
-                        <input type="text" v-model="a.address">
+                    <div v-for="e in contact.emails" :key="e.id">
+                        <input type="text" v-model="e.email">
                     </div>
                     <button
                         class="pure-button"
-                        title="Add Address"
-                        @click="contact.addresses.push({address: ''})" >
+                        title="Add Phone"
+                        @click="contact.emails.push({email: ''})" >
                         <i class="fa fa-plus" />
                     </button>
                 </div>
@@ -88,25 +87,26 @@
             </template>
         </div>
 
-        <!-- Emails -->
+        <!-- Addresses -->
         <div class="data">
             <label class="info">
                 <!-- display plural if more than one item -->
-                {{contact.emails.length > 1 ? 'Emails' : 'Email'}}
+                {{contact.addresses.length > 1 ? 'Addresses' : 'Address'}}
             </label>
+
             <template v-if="!isEditing">
-                <div v-for="e in contact.emails" :key="e.id">{{e.email}}</div>
+                <div v-for="a in contact.addresses" :key="a.id">{{a.address}}</div>
             </template>
 
             <template v-if="isEditing">
                 <div class="pure-form pure-form-stacked">
-                    <div v-for="e in contact.emails" :key="e.id">
-                        <input type="text" v-model="e.email">
+                    <div v-for="a in contact.addresses" :key="a.id">
+                        <input type="text" v-model="a.address">
                     </div>
                     <button
                         class="pure-button"
-                        title="Add Phone"
-                        @click="contact.emails.push({email: ''})" >
+                        title="Add Address"
+                        @click="contact.addresses.push({address: ''})" >
                         <i class="fa fa-plus" />
                     </button>
                 </div>
@@ -169,11 +169,39 @@ export default {
             this.$store.commit('_updateEditing', true)
         },
 
+        validate() {
+            if (this.contact.first_name == '') {
+                alert('First Name is required')
+                return false
+            }
+            if (this.contact.last_name == '') {
+                alert('Last Name is required')
+                return false
+            }
+            if (this.contact.date_of_birth == '0001-01-01') {
+                alert('Date of birth is required')
+                return false
+            }
+            if (this.contact.emails[0].email == '') {
+                alert('At least one email is required')
+                return false
+            }
+            if (this.contact.phones[0].phone == '') {
+                alert('At least one phone number is required')
+                return false
+            }
+            return true
+        },
+
         save() {
-            if (this.contact.id === '_new') {
-                this.$store.dispatch('addContact')
-            } else {
-                this.$store.dispatch('updateContact')
+            let valid = this.validate(this.contact)
+
+            if (valid) {
+                if (this.contact.id === '_new') {
+                    this.$store.dispatch('addContact')
+                } else {
+                    this.$store.dispatch('updateContact')
+                }
             }
         },
 
