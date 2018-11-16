@@ -159,7 +159,7 @@
 </template>
 
 <script>
-import j from 'jdenticon'
+import jdenticon from 'jdenticon'
 import dayjs from 'dayjs'
 import DateSelector from '@/components/DateSelector.vue'
 
@@ -222,7 +222,7 @@ export default {
 
         deleteContact() {
             alert('Are you sure?')
-
+            this.$store.dispatch('deleteContact', this.contact.id)
         }
     },
 
@@ -245,7 +245,9 @@ export default {
             let contact = this.contact
 
             // 72px size icon
-            return j.toSvg(contact.first_name + contact.last_name + contact.id, 72)
+            return jdenticon.toSvg(contact.first_name
+                                    + contact.last_name
+                                    , 72)
         }
     }
 }

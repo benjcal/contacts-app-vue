@@ -27,9 +27,11 @@ export default {
     computed: {
         iconSvg() {
             let contact = this.contact
+
+            // 46px size icon
             return jdenticon.toSvg(contact.first_name
                                     + contact.last_name
-                                    + contact.id, 46)
+                                    , 46)
         },
 
         isSelected() {
