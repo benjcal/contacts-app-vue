@@ -276,6 +276,7 @@ export default {
             width: 160px;
             border-bottom: 1px solid #CCC;
             margin-bottom: 4px;
+            font-size: 11px;
         }
     }
 }
