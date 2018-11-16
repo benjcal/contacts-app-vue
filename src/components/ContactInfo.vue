@@ -214,12 +214,15 @@ export default {
         },
 
         discard() {
+            if (this.contact.id === '_new') {
+                this.$store.dispatch('deleteContact', this.contact.id)
+            }
             this.$store.commit('_updateEditing', false)
         },
 
         deleteContact() {
             alert('Are you sure?')
-            this.$store.dispatch('deleteContact', this.contact.id)
+
         }
     },
 
