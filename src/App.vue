@@ -1,18 +1,16 @@
 <template>
     <div id="app">
         <app-header />
+
         <main v-if="isReady">
             <div class="left">
-            <div class="span">
                 <filter-bar />
+                <contact-list />
             </div>
 
-            <contact-list />
-        </div>
-
-        <div class="right">
-            <contact-info />
-        </div>
+            <div class="right">
+                <contact-info />
+            </div>
         </main>
     </div>
 </template>

@@ -14,9 +14,13 @@
         <option value="11">November</option>
         <option value="12">December</option>
     </select>
+
+    <!-- ain't nobody got this fot this... -->
     <select v-model="day" @change="changed">
         <option v-for="d in days" :key="d" :value="d">{{d}}</option>
     </select>
+
+    <!-- nor this -->
     <select v-model="year" @change="changed">
         <option v-for="y in years" :key="y" :value="y">{{y}}</option>
     </select>
@@ -34,6 +38,7 @@ export default {
         }
     },
     computed: {
+        // gen numbers from 1-31
         days() {
             let n = []
             for (let i = 1; i <= 31; i++) {
@@ -42,7 +47,7 @@ export default {
             return n
         },
 
-        // who has time to write from 1900 to whatever year it is manually?
+        // generate numbers from 1900 to whatever year it is
         years() {
             let d = new Date()
             let n = []
@@ -56,6 +61,7 @@ export default {
     },
 
     methods: {
+        // prepare date for API query
         changed() {
             let day = this.day < 10 ? `0${this.day}` : `${this.day}`
             let month = this.month < 10 ? `0${this.month}` : `${this.month}`

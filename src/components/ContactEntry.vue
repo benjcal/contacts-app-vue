@@ -3,7 +3,10 @@
         class="contact-entry"
         :class="{ selected: isSelected }"
         @click="select" >
+
+        <!-- Icon, v-html used with care -->
         <span class="icon" v-html="iconSvg" />
+
         <span class="first_name">{{contact.first_name}}&nbsp;</span>
         <span class="last_name">{{contact.last_name}}</span>
     </div>
@@ -17,9 +20,7 @@ export default {
 
     methods: {
         select() {
-            if (!this.$store.state.isEditing) {
-                this.$store.commit('updateSelection', this.contact.id)
-            }
+            this.$store.commit('_updateSelection', this.contact.id)
         }
     },
 
@@ -63,4 +64,3 @@ export default {
     }
 }
 </style>
-

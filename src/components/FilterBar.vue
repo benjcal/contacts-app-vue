@@ -15,7 +15,7 @@ export default {
     computed: {
         filter: {
             set(val) {
-                this.$store.commit('updateFilter', val)
+                this.$store.commit('_updateFilter', val)
             },
             get() {
                 return this.$store.state.filterBy

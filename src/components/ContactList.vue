@@ -4,9 +4,7 @@
             v-for="contact in contacts"
             :key="contact.id"
             :contact="contact"
-            v-show="contact.first_name.toLowerCase().includes(filterBy)
-                    || contact.last_name.toLowerCase().includes(filterBy)"
-        />
+            v-if="filter(contact)" />
     </div>
 </template>
 
@@ -16,6 +14,14 @@ import ContactEntry from '@/components/ContactEntry.vue'
 export default {
     components: {
         ContactEntry
+    },
+
+    methods: {
+        filter(contact) {
+            let param = this.$store.state.filterBy.toLowerCase()
+            return ( contact.first_name.toLowerCase().includes(param)
+                    || contact.last_name.toLowerCase().includes(param) )
+        }
     },
 
     computed: {
@@ -34,10 +40,6 @@ export default {
             })
 
             return contacts
-        },
-
-        filterBy() {
-            return this.$store.state.filterBy.toLowerCase()
         }
     }
 }
@@ -46,7 +48,6 @@ export default {
 <style lang="scss" scoped>
 .contact-list {
     height: calc(100% - 32px); // -32px for the heigh of the search
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 </style>
-

@@ -1,8 +1,12 @@
 <template>
-    <div class="contact-info" v-if="contact">
+    <div class="contact-info"
+        v-if="contact"
+        @keypress.enter="save"
+        @keypress.esc="discard" >
 
         <!-- Name and icon -->
         <div class="name">
+            <!-- v-html used with care -->
             <span class="icon" v-html="iconSvg" />
 
             <!-- display when not editing -->
@@ -60,7 +64,10 @@
 
         <!-- Phones -->
         <div class="data">
-            <label class="info">{{contact.phones.length > 1 ? 'Phone Number' : 'Phone Numbers'}}</label>
+            <!-- display plural if more than one item -->
+            <label class="info">
+                {{contact.phones.length > 1 ? 'Phone Number' : 'Phone Numbers'}}
+            </label>
 
             <template v-if="!isEditing">
                 <div v-for="p in contact.phones" :key="p.id">{{p.phone}}</div>
@@ -83,7 +90,10 @@
 
         <!-- Emails -->
         <div class="data">
-            <label class="info">Emails</label>
+            <label class="info">
+                <!-- display plural if more than one item -->
+                {{contact.emails.length > 1 ? 'Emails' : 'Email'}}
+            </label>
             <template v-if="!isEditing">
                 <div v-for="e in contact.emails" :key="e.id">{{e.email}}</div>
             </template>
@@ -103,8 +113,14 @@
             </template>
         </div>
 
+        <!-- Buttons -->
         <template v-if="!isEditing">
-            <button @click="edit" class="pure-button pure-button-primary" title="Edit"><i class="fa fa-pencil"></i></button>
+            <button
+                @click="edit"
+                class="pure-button pure-button-primary"
+                title="Edit">
+                <i class="fa fa-pencil" />
+            </button>
         </template>
 
         <template v-if="isEditing">
@@ -143,36 +159,39 @@ export default {
     components: {
         DateSelector
     },
-    data() {
-        return {
-            contactCopy: {}
-        }
-    },
+
     methods: {
         dobFormat(date) {
             return dayjs(date).format('MMM D YYYY')
         },
+
         edit() {
-            this.contactCopy = Object.assign({}, this.contact)
-            this.isEditing = true
+            this.$store.commit('_updateEditing', true)
         },
+
         save() {
-            this.isEditing = false
+            if (this.contact.id === '_new') {
+                this.$store.dispatch('addContact')
+            } else {
+                this.$store.dispatch('updateContact')
+            }
         },
+
         discard() {
-            this.isEditing = false
+            this.$store.commit('_updateEditing', false)
         },
+
         deleteContact() {
             alert('Are you sure?')
             this.$store.dispatch('deleteContact', this.contact.id)
-            this.isEditing = false
         }
     },
+
     computed: {
         isEditing: {
             set() {
                 let editing = this.$store.state.isEditing
-                this.$store.commit('updateEditing', !editing)
+                this.$store.commit('_updateEditing', !editing)
             },
             get() {
                 return this.$store.state.isEditing
@@ -180,17 +199,13 @@ export default {
         },
 
         contact() {
-            let s = this.$store.state
-            if (this.isEditing) {
-                return this.contactCopy
-            }
-            return s.contacts[s.selectedContactId]
+            return this.$store.state.currentContact
         },
 
         iconSvg() {
             let contact = this.contact
 
-            // 72px size
+            // 72px size icon
             return j.toSvg(contact.first_name + contact.last_name + contact.id, 72)
         }
     }
